@@ -1,9 +1,9 @@
 ### Step 1
-Construct the two 1-D arrays 
-- Ladders
-- Snakes
-index: source square
-value: destincation square
+Construct the two Maps
+- Ladders  
+- Snakes  
+key: source square
+value: destination square
 
 For *Ladders* It will be slide up
 For *Ladders* It will be slide down
