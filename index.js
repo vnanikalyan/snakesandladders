@@ -1,8 +1,7 @@
 const Player = require('./Player')
 
-// size 100 each coz board size is 100
-const ladders = Array(100)
-const snakes = Array(100)
+const ladders = new Map()
+const snakes = new Map()
 const players = [
   new Player('NANI', 0),
   new Player('JOHNNY', 0),
@@ -14,6 +13,9 @@ let diceValue
 let newPosition
 let data = []
 let winnerFound = false
+
+const min = 2
+const max = 12
 
 let cnt = 0
 const noOfiterations = 100000000
@@ -57,9 +59,7 @@ function play (currentPlayer, index) {
   }
 }
 
-function dice () {
-  const min = 2
-  const max = 12
+function dice () {  
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
@@ -67,14 +67,14 @@ function calculatePosition (currentPlayer, diceValue) {
   // const currentPosition = currentPlayer.getCurrentPosition()
   let newPosition = currentPlayer.getCurrentPosition() + diceValue
 
-  // Rule 1:  if Ladder the slide up
-  if (ladders[newPosition]) {
-    newPosition = ladders[newPosition]
+  // Rule 1:  if Ladder the slide up  
+  if (ladders.get(newPosition) !== undefined) {
+    newPosition = ladders.get(newPosition)
   }
 
   // Rule 2:  if Snake the slide down
-  if (snakes[newPosition]) {
-    newPosition = snakes[newPosition]
+  if (snakes.get(newPosition) !== undefined) {
+    newPosition = snakes.get(newPosition)
   }
 
   // Rule 4: OverShoot 100th position
@@ -86,64 +86,29 @@ function calculatePosition (currentPlayer, diceValue) {
 }
 
 function constructBoard () {
-// Ladders
-  let i
-  for (i = 1; i <= 100; i++) {
-    switch (i) {
-      case 2: ladders[i] = 38
-        break
-      case 7: ladders[i] = 14
-        break
-      case 8: ladders[i] = 31
-        break
-      case 15: ladders[i] = 26
-        break
-      case 21: ladders[i] = 42
-        break
-      case 26: ladders[i] = 84
-        break
-      case 36: ladders[i] = 44
-        break
-      case 51: ladders[i] = 67
-        break
-      case 71: ladders[i] = 91
-        break
-      case 78: ladders[i] = 98
-        break
-      case 87: ladders[i] = 94
-        break
-      default: ladders[i] = 0
-        break
-    }
-  }
+  // Ladders
+  ladders.set(2,38)
+  ladders.set(7,14)
+  ladders.set(8,31)
+  ladders.set(15,26)
+  ladders.set(21,42)
+  ladders.set(26,84)
+  ladders.set(36,44)
+  ladders.set(51,67)
+  ladders.set(78,98)
+  ladders.set(87,94)
 
   // Snakes
-  for (i = 1; i <= 100; i++) {
-    switch (i) {
-      case 16: snakes[i] = 6
-        break
-      case 49: snakes[i] = 11
-        break
-      case 46: snakes[i] = 25
-        break
-      case 64: snakes[i] = 60
-        break
-      case 62: snakes[i] = 19
-        break
-      case 74: snakes[i] = 53
-        break
-      case 89: snakes[i] = 68
-        break
-      case 99: snakes[i] = 80
-        break
-      case 95: snakes[i] = 75
-        break
-      case 92: snakes[i] = 88
-        break
-      default: snakes[i] = 0
-        break
-    }
-  }
+  snakes.set(16,6)
+  snakes.set(49,11)
+  snakes.set(46,25)
+  snakes.set(64,60)
+  snakes.set(62,19)
+  snakes.set(74,53)
+  snakes.set(89,68)
+  snakes.set(99,80)
+  snakes.set(95,75)
+  snakes.set(92,88)
 }
 
 function main () {
